@@ -1,0 +1,12 @@
+Small Windows Utility Repository
+================================
+
+This repository contains some small single-source-file utilities I've written
+over time, specifically on Windows. These utilities were made when they were
+needed, and were subject to neither quality assurance nor quality control.
+
+Each file in the 'src' directory is the source code of a single utility. Since
+I've used Cygwin when I worked on Windows, the tools one need to build them are
+the Cygwin variants of 'gcc', 'g++', and 'make'.
+
+Resulting files will be put to the 'bin' directory, ready to use.
