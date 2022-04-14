@@ -13,3 +13,4 @@ Resulting files will be put to the 'bin' directory, ready to use.
 
 The following tools are maintained in the repository.
 - killall.exe: Name-based process killing utility.
+- forceshow.exe: Forces the visibility of a window based on its title.

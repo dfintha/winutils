@@ -1,5 +1,6 @@
 BINARIES= \
-	bin/killall.exe
+	bin/killall.exe \
+	bin/forceshow.exe
 
 .PHONY: all clean
 
