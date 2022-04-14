@@ -10,3 +10,6 @@ I've used Cygwin when I worked on Windows, the tools one need to build them are
 the Cygwin variants of 'gcc', 'g++', and 'make'.
 
 Resulting files will be put to the 'bin' directory, ready to use.
+
+The following tools are maintained in the repository.
+- killall.exe: Name-based process killing utility.
