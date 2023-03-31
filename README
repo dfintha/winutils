@@ -15,3 +15,4 @@ The following tools are maintained in the repository.
 - killall.exe: Name-based process killing utility.
 - forceshow.exe: Forces the visibility of a window based on its title.
 - adminrun.exe: Runs the specified command as administrator.
+- mdicapture.exe: Provides an MDI frame, to which external windows can be added.

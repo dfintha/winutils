@@ -1,7 +1,8 @@
 BINARIES= \
 	bin/killall.exe \
 	bin/forceshow.exe \
-	bin/adminrun.exe
+	bin/adminrun.exe \
+	bin/mdicapture.exe
 
 .PHONY: all clean
 
