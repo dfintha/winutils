@@ -4,16 +4,32 @@ BINARIES= \
 	bin/adminrun.exe \
 	bin/mdicapture.exe
 
+CC=gcc
+RC=windres
+LD=gcc
+CFLAGS=-Wall -Wextra -Wpedantic -std=c89 -O2
+LDFLAGS=-lgdi32 -lcomctl32 -lcomdlg32
+
 .PHONY: all clean
 
 all: $(BINARIES)
 	@printf "Success!\n"
 
 clean:
-	@rm -rf bin
+	@rm -rf bin obj
 	@printf "Success!\n"
 
-bin/%.exe: src/%.c
+obj/common.o: res/common.rc
+	@printf "Compiling common manifest\n"
+	@mkdir -p obj
+	@$(RC) -i res/common.rc -o obj/common.o
+
+obj/%.o: src/%.c
+	@printf "Compiling $@\n"
+	@mkdir -p obj
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+bin/%.exe: obj/%.o obj/common.o
 	@printf "Compiling $@\n"
 	@mkdir -p bin
-	@gcc -Wall -Wextra -Wpedantic -std=c89 -O2 -s $< -o $@
+	@$(LD) $< obj/common.o -o $@ -s $(LDFLAGS)
