@@ -1,5 +1,5 @@
-#include <Windows.h>
-#include <Psapi.h>
+#include <windows.h>
+#include <psapi.h>
 
 static DWORD StringLength(IN LPCSTR lpString) {
     DWORD dwLength = 0;

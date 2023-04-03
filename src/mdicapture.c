@@ -1,5 +1,5 @@
-#include <Windows.h>
-#include <CommCtrl.h>
+#include <windows.h>
+#include <commctrl.h>
 
 static HWND hWndFrame = NULL;
 static HWND hWndClient = NULL;

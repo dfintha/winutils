@@ -1,13 +1,30 @@
 Small Windows Utility Repository
 ================================
 
-This repository contains some small single-source-file utilities I've written
+This repository contains some small single-source-file utilities written by me
 over time, specifically on Windows. These utilities were made when they were
 needed, and were subject to neither quality assurance nor quality control.
 
-Each file in the 'src' directory is the source code of a single utility. Since
-I've used Cygwin when I worked on Windows, the tools one need to build them are
-the Cygwin variants of 'gcc', 'g++', and 'make'.
+Each file in the 'src' directory is the source code of a single utility. Some
+functions are present in multiple files, since every tool was designed to be
+a stand-alone executable with a single file of source code (except the resources
+needed to enable visual styles on GUI software). The style of the source code
+is similar to the Windows API's style, using hungarian notation and types
+defined by the Windows API. These tools do not use the C standard library, only
+function provided by Windows facilities, making the operating system itself
+their only dependency. Every tool was planned to be compatible with every
+Windows version, starting with Windows NT 4.0 (with visual styles disabled for
+versions before Windows XP).
+
+Since Cygwin was used for building on Windows, the tools one need to build them
+are the cross-compiler variants of 'gcc', 'windres', and 'make', as these tools
+are available for both Windows and Linux systems. This requires some tools to
+be installed on the build system.
+
+- Cygwin: mingw64-x86_64-gcc, mingw64-x86_64-binutils
+- ArchLinux: mingw-w64-gcc, mingw-w64-binutils
+- Ubuntu: gcc-mingw-w64, binutils-mingw-w64-x86-64
+- Fedora: mingw64-gcc, mingw64-binutils
 
 Resulting files will be put to the 'bin' directory, ready to use.
 

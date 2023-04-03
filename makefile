@@ -1,3 +1,5 @@
+MAKEFLAGS+=-s  # silent mode, disables command output
+
 BINARIES= \
 	bin/killall.exe \
 	bin/forceshow.exe \
@@ -5,36 +7,46 @@ BINARIES= \
 	bin/mdicapture.exe
 
 CC=x86_64-w64-mingw32-gcc
-RC=windres
+RC=x86_64-w64-mingw32-windres
 LD=x86_64-w64-mingw32-gcc
+
 CFLAGS=-Wall -Wextra -Wpedantic -std=c89 -O2
-LDFLAGS=-lshell32 -lkernel32 -luser32 -lgdi32 -lcomctl32 -lcomdlg32
+LDFLAGS=-s -lshell32 -lkernel32 -luser32 -lgdi32 -lcomctl32 -lcomdlg32
+
+ifdef TERM
+GREEN=`tput setaf 2``tput bold`
+BLUE=`tput setaf 4``tput bold`
+RESET=`tput sgr0`
+DIM=`tput dim`
+endif
 
 .PHONY: all clean
 
 all: $(BINARIES)
-	@printf "Success!\n"
+	@printf '%sBuild successful%s\n' "$(BLUE)$(DIM)" "$(RESET)"
 
 clean:
+	@printf '%sRemoving build artifacts%s\n' "$(BLUE)" "$(RESET)"
 	@rm -rf bin obj
-	@printf "Success!\n"
 
-obj/common.o: res/common.rc
-	@printf "Compiling common manifest\n"
+obj/common.o: res/common.rc makefile
+	@printf "%sCompiling resource object %s\n" "$(GREEN)$(DIM)" "$@$(RESET)"
 	@mkdir -p obj
 	@$(RC) -i res/common.rc -o obj/common.o
 
-obj/%.o: src/%.c
-	@printf "Compiling $@\n"
+obj/%.o: src/%.c makefile
+	@printf '%sCompiling C object %s\n' "$(GREEN)$(DIM)" "$@$(RESET)"
 	@mkdir -p obj
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 bin/%.exe: obj/%.o obj/common.o
-	@printf "Compiling $@\n"
+	@printf '%sLinking executable %s\n' "$(GREEN)" "$@$(RESET)"
 	@mkdir -p bin
 	@$(LD) $< obj/common.o -o $@ -s $(LDFLAGS)
+	@printf '%sBuilt target %s\n' "$(BLUE)" "$@$(RESET)"
 
 bin/mdicapture.exe: obj/mdicapture.o obj/common.o
-	@printf "Compiling $@\n"
+	@printf '%sLinking executable %s\n' "$(GREEN)" "$@$(RESET)"
 	@mkdir -p bin
 	@$(LD) $< obj/common.o -o $@ -s $(LDFLAGS) -Wl,--subsystem,windows
+	@printf '%sBuilt target %s\n' "$(BLUE)" "$@$(RESET)"
