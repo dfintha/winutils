@@ -10,7 +10,7 @@ static HWND hRefreshButton = NULL;
 static HWND hWindowList = NULL;
 static HWND hChildList = NULL;
 
-static VOID AddTextItemToListView(HWND hList, LPCSTR lpText) {
+static VOID AddTextItemToListView(IN HWND hList, IN LPCSTR lpText) {
     CONST INT iItems = ListView_GetItemCount(hList);
     LVITEM lvItem;
     lvItem.pszText = (LPSTR) lpText;
@@ -23,19 +23,19 @@ static VOID AddTextItemToListView(HWND hList, LPCSTR lpText) {
     ListView_InsertItem(hList, &lvItem);
 }
 
-static VOID CaptureChild(HWND hWndChild) {
+static VOID CaptureChild(IN HWND hWndChild) {
     SetParent(hWndChild, hWndClient);
     SendMessage(hWndChild, WM_SYSCOMMAND, SC_RESTORE, 0);
     SetWindowPos(hWndChild, NULL, 10, 10, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 
-static VOID ReleaseChild(HWND hWndChild) {
+static VOID ReleaseChild(IN HWND hWndChild) {
     SetParent(hWndChild, GetDesktopWindow());
     SendMessage(hWndChild, WM_SYSCOMMAND, SC_RESTORE, 0);
     SetWindowPos(hWndChild, NULL, 10, 10, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 
-static BOOL CALLBACK WindowEnumCallback(HWND hWnd, LPARAM lParam) {
+static BOOL CALLBACK WindowEnumCallback(IN HWND hWnd, IN LPARAM lParam) {
     LPSTR lpBuffer;
     CONST INT iLength = GetWindowTextLength(hWnd);
 
@@ -60,10 +60,10 @@ static VOID CALLBACK RefreshCallback(VOID) {
 }
 
 static LRESULT CALLBACK FrameWindowProc(
-    HWND hWnd,
-    UINT uMsg,
-    WPARAM wParam,
-    LPARAM lParam
+    IN HWND hWnd,
+    IN UINT uMsg,
+    IN WPARAM wParam,
+    IN LPARAM lParam
 ) {
     CLIENTCREATESTRUCT ccs;
 
@@ -99,7 +99,7 @@ static LRESULT CALLBACK FrameWindowProc(
     return DefFrameProc(hWnd, hWndClient, uMsg, wParam, lParam);
 }
 
-static HWND CreateFrameWindow(HINSTANCE hInstance) {
+static HWND CreateFrameWindow(IN HINSTANCE hInstance) {
     WNDCLASSA wcFrame;
     wcFrame.style = CS_HREDRAW | CS_VREDRAW;
     wcFrame.lpfnWndProc = FrameWindowProc;
@@ -130,10 +130,10 @@ static HWND CreateFrameWindow(HINSTANCE hInstance) {
 }
 
 static LRESULT CALLBACK ManagerWindowProc(
-    HWND hWnd,
-    UINT uMsg,
-    WPARAM wParam,
-    LPARAM lParam
+    IN HWND hWnd,
+    IN UINT uMsg,
+    IN WPARAM wParam,
+    IN LPARAM lParam
 ) {
     INT iSelect;
     CHAR aBuffer[1024];
@@ -161,7 +161,7 @@ static LRESULT CALLBACK ManagerWindowProc(
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-static HWND CreateManagerWindow(HINSTANCE hInstance) {
+static HWND CreateManagerWindow(IN HINSTANCE hInstance) {
     HWND hWnd;
     WNDCLASSA wcManager;
     LV_COLUMN lcColumn;
@@ -316,10 +316,10 @@ static HWND CreateManagerWindow(HINSTANCE hInstance) {
 }
 
 INT WinMain(
-    HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine,
-    INT nShowCmd
+    IN HINSTANCE hInstance,
+    IN HINSTANCE hPrevInstance,
+    IN LPSTR lpCmdLine,
+    IN INT nShowCmd
 ) {
     MSG msg;
     INITCOMMONCONTROLSEX icc;

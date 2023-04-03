@@ -1,9 +1,35 @@
-#include <stdio.h>
-#include <string.h>
 #include <Windows.h>
-#include <psapi.h>
+#include <Psapi.h>
 
-LPSTR GetProcessIdByName(
+static DWORD StringLength(IN LPCSTR lpString) {
+    DWORD dwLength = 0;
+    while (*lpString++ != '\0')
+        ++dwLength;
+    return dwLength;
+}
+
+static BOOL StringEqualN(IN LPCSTR lpLhs, IN LPCSTR lpRhs, IN DWORD dwLength) {
+    DWORD i;
+    for (i = 0; i < dwLength; ++i)
+        if (lpLhs[i] != lpRhs[i])
+            return FALSE;
+    return TRUE;
+}
+
+static BOOL StringEqual(IN LPCSTR lpLhs, IN LPCSTR lpRhs) {
+    CONST DWORD dwLength = StringLength(lpLhs);
+    if (dwLength != StringLength(lpRhs))
+        return FALSE;
+    return StringEqualN(lpLhs, lpRhs, dwLength);
+}
+
+
+static VOID PrintToOutput(IN LPCSTR lpMessage) {
+    HANDLE hStdErr = GetStdHandle(STD_OUTPUT_HANDLE);
+    WriteConsoleA(hStdErr, lpMessage, StringLength(lpMessage), NULL, NULL);
+}
+
+static LPSTR GetProcessIdByName(
     IN DWORD dwProcessId,
     IN LPSTR lpBuffer,
     IN SIZE_T cbBufferSize
@@ -24,7 +50,7 @@ LPSTR GetProcessIdByName(
     return lpBuffer;
 }
 
-VOID KillProcessById(IN DWORD dwProcessId) {
+static VOID KillProcessById(IN DWORD dwProcessId) {
     HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, dwProcessId);
     if (hProcess != NULL)
         TerminateProcess(hProcess, 42);
@@ -39,7 +65,7 @@ INT main(IN INT nArgc, IN LPSTR *lpArgv) {
     UINT nCount = 0;
 
     if (nArgc < 2) {
-        printf("usage: killall <name>\n");
+        PrintToOutput("Usage: killall <NAME>\n");
         return 0;
     }
 
@@ -48,17 +74,18 @@ INT main(IN INT nArgc, IN LPSTR *lpArgv) {
 
     for (i = 0; i < dwLength / sizeof(DWORD); ++i) {
         GetProcessIdByName(dwProcessIds[i], szBuffer, sizeof(szBuffer));
-        if (strcmp(lpArgv[1], szBuffer) == 0) {
+        if (StringEqual(lpArgv[1], szBuffer)) {
             KillProcessById(dwProcessIds[i]);
             ++nCount;
-        } else if (strncmp(lpArgv[1], szBuffer, strlen(lpArgv[1])) == 0) {
-            if (strcmp(".exe", szBuffer + strlen(lpArgv[1])) == 0) {
+        } else if (StringEqualN(lpArgv[1], szBuffer, StringLength(lpArgv[1]))) {
+            if (StringEqual(".exe", szBuffer + StringLength(lpArgv[1]))) {
                 KillProcessById(dwProcessIds[i]);
                 ++nCount;
             }
         }
     }
 
-    printf("Killed %d process%s.\n", nCount, nCount != 1 ? "es" : "");
+    if (nCount == 0)
+        PrintToOutput("No processes killed.\n");
     return 0;
 }

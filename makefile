@@ -4,11 +4,11 @@ BINARIES= \
 	bin/adminrun.exe \
 	bin/mdicapture.exe
 
-CC=gcc
+CC=x86_64-w64-mingw32-gcc
 RC=windres
-LD=gcc
+LD=x86_64-w64-mingw32-gcc
 CFLAGS=-Wall -Wextra -Wpedantic -std=c89 -O2
-LDFLAGS=-lgdi32 -lcomctl32 -lcomdlg32
+LDFLAGS=-lshell32 -lkernel32 -luser32 -lgdi32 -lcomctl32 -lcomdlg32
 
 .PHONY: all clean
 
@@ -33,3 +33,8 @@ bin/%.exe: obj/%.o obj/common.o
 	@printf "Compiling $@\n"
 	@mkdir -p bin
 	@$(LD) $< obj/common.o -o $@ -s $(LDFLAGS)
+
+bin/mdicapture.exe: obj/mdicapture.o obj/common.o
+	@printf "Compiling $@\n"
+	@mkdir -p bin
+	@$(LD) $< obj/common.o -o $@ -s $(LDFLAGS) -Wl,--subsystem,windows

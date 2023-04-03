@@ -1,31 +1,31 @@
 #include <Windows.h>
 
-DWORD StringLength(IN LPCSTR lpString) {
+static DWORD StringLength(IN LPCSTR lpString) {
     DWORD dwLength = 0;
     while (*lpString++ != '\0')
         ++dwLength;
     return dwLength;
 }
 
-LPSTR StringCopy(IN LPSTR lpDestination, IN LPCSTR lpSource) {
+static LPSTR StringCopy(IN LPSTR lpDestination, IN LPCSTR lpSource) {
     LPSTR lpCopy = lpDestination;
     while ((*lpCopy++ = *lpSource++) != '\0');
     return lpDestination;
 }
 
-LPSTR StringConcat(IN LPSTR lpDestination, IN LPCSTR lpSource) {
+static LPSTR StringConcat(IN LPSTR lpDestination, IN LPCSTR lpSource) {
     LPSTR lpCopy = lpDestination;
     lpCopy += StringLength(lpDestination);
     StringCopy(lpCopy, lpSource);
     return lpDestination;
 }
 
-VOID PrintToError(IN LPCSTR lpMessage) {
-    HANDLE hStdErr = GetStdHandle(STD_OUTPUT_HANDLE);
+static VOID PrintToError(IN LPCSTR lpMessage) {
+    HANDLE hStdErr = GetStdHandle(STD_ERROR_HANDLE);
     WriteConsoleA(hStdErr, lpMessage, StringLength(lpMessage), NULL, NULL);
 }
 
-LPSTR ConcatenateArguments(IN INT nArgc, IN LPCSTR *lpArgv) {
+static LPSTR ConcatenateArguments(IN INT nArgc, IN LPCSTR *lpArgv) {
     DWORD dwLength = 0;
     LPSTR lpResult = NULL;
     INT i;
@@ -43,7 +43,7 @@ LPSTR ConcatenateArguments(IN INT nArgc, IN LPCSTR *lpArgv) {
     return lpResult;
 }
 
-INT RunAsAdministrator(IN INT nArgc, IN LPCSTR *lpArgv) {
+static INT RunAsAdministrator(IN INT nArgc, IN LPCSTR *lpArgv) {
     LPSTR lpArguments = ConcatenateArguments(nArgc - 1, lpArgv + 1);
     LPCSTR lpFailMessage =
         "Failed to execute command with administrator privileges.\n";

@@ -1,40 +1,49 @@
 #include <Windows.h>
-#include <stdio.h>
 
-#define POINTER_TO_ULONG(lpValue) ((ULONG) ((UINT_PTR) lpValue))
+static DWORD StringLength(IN LPCSTR lpString) {
+    DWORD dwLength = 0;
+    while (*lpString++ != '\0')
+        ++dwLength;
+    return dwLength;
+}
 
-BOOL ForceShowWindow(IN LPCSTR szWindowName) {
+static VOID PrintToOutput(IN LPCSTR lpMessage) {
+    HANDLE hStdErr = GetStdHandle(STD_OUTPUT_HANDLE);
+    WriteConsoleA(hStdErr, lpMessage, StringLength(lpMessage), NULL, NULL);
+}
+
+static BOOL ForceShowWindow(IN LPCSTR szWindowName) {
     HWND hWnd;
     RECT rWnd;
 
     hWnd = FindWindowA(NULL, szWindowName);
     if (hWnd == NULL) {
-        puts("  ERROR: Window not found.");
+        PrintToOutput("  ERROR: Window not found.\n");
         return FALSE;
     }
-    printf("  Window handle is 0x%X.\n", POINTER_TO_ULONG(hWnd));
+    PrintToOutput("  Window handle found.\n");
 
     if (!GetWindowRect(hWnd, &rWnd)) {
-        puts("  ERROR: Failed to get window position.");
+        PrintToOutput("  ERROR: Failed to get window position.");
         return FALSE;
     }
-    printf("  Position of window is (%d, %d).\n", rWnd.left, rWnd.top);
+    PrintToOutput("  Window position found.\n");
 
-    puts("  Setting window to be at position (10, 10).");
+    PrintToOutput("  Setting window to be at position (10, 10).\n");
     if (!SetWindowPos(hWnd, NULL, 10, 10, 0, 0, SWP_NOSIZE)) {
-        puts("  ERROR: Failed to set window position.");
+        PrintToOutput("  ERROR: Failed to set window position.\n");
         return FALSE;
     }
 
-    puts("  Setting opacity of window to 100%.");
+    PrintToOutput("  Setting opacity of window to 100%.\n");
     if (!SetLayeredWindowAttributes(hWnd, RGB(0, 0, 0), 255, LWA_ALPHA)) {
-        puts("  ERROR: Failed to set opacity.");
+        PrintToOutput("  ERROR: Failed to set opacity.\n");
         return FALSE;
     }
 
-    puts("  Showing window.");
+    PrintToOutput("  Showing window.\n");
     if (!ShowWindow(hWnd, SW_SHOW)) {
-        puts("  ERROR: Failed to show window.");
+        PrintToOutput("  ERROR: Failed to show window.\n");
         return FALSE;
     }
 
@@ -45,7 +54,6 @@ INT main(IN INT nArgc, IN LPCSTR *lpArgv) {
     INT i;
     --nArgc, ++lpArgv;
     for (i = 0; i < nArgc; ++i) {
-        printf("Window '%s':\n", lpArgv[i]);
         ForceShowWindow(lpArgv[i]);
     }
     return 0;
