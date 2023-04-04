@@ -1,4 +1,7 @@
 #include <windows.h>
+#define IDI_APPICON 101
+
+IDI_APPICON ICON "winutils.ico"
 
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "common.manifest"
 

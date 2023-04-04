@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <commctrl.h>
+#define IDI_APPICON 101
 
 static HWND hWndFrame = NULL;
 static HWND hWndClient = NULL;
@@ -101,12 +102,21 @@ static LRESULT CALLBACK FrameWindowProc(
 
 static HWND CreateFrameWindow(IN HINSTANCE hInstance) {
     WNDCLASSA wcFrame;
+    HICON hIcon = LoadImage(
+        hInstance,
+        MAKEINTRESOURCE(IDI_APPICON),
+        IMAGE_ICON,
+        0,
+        0,
+        LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED
+    );
+
     wcFrame.style = CS_HREDRAW | CS_VREDRAW;
     wcFrame.lpfnWndProc = FrameWindowProc;
     wcFrame.cbClsExtra = 0;
     wcFrame.cbWndExtra = 0;
     wcFrame.hInstance = hInstance;
-    wcFrame.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    wcFrame.hIcon = hIcon; /*LoadIcon(NULL, IDI_APPLICATION);*/
     wcFrame.hCursor = LoadCursor(NULL, IDC_ARROW);
     wcFrame.hbrBackground = (HBRUSH)(COLOR_WINDOW);
     wcFrame.lpszMenuName = NULL;
