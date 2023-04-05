@@ -34,3 +34,4 @@ The following tools are maintained in the repository.
 - adminrun.exe: Runs the specified command as administrator.
 - mdicapture.exe: Provides an MDI frame, to which external windows can be added.
 - modules.exe: Lists the loaded modules (the EXE and DLLs) of a running process.
+- dbglist.exe: Listens to and displays OutputDebugString() messages system-wide.

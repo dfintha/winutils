@@ -5,7 +5,8 @@ BINARIES= \
 	bin/forceshow.exe \
 	bin/adminrun.exe \
 	bin/mdicapture.exe \
-	bin/modules.exe
+	bin/modules.exe \
+	bin/dbglist.exe
 
 CC=x86_64-w64-mingw32-gcc
 RC=x86_64-w64-mingw32-windres
@@ -51,4 +52,9 @@ bin/mdicapture.exe: obj/mdicapture.o obj/common-gui.rc.o
 	@mkdir -p bin
 	@$(LD) $< obj/common-gui.rc.o -o $@ -s $(LDFLAGS) -Wl,--subsystem,windows
 	@printf '%sBuilt target %s\n' "$(BLUE)" "$@$(RESET)"
+
+bin/dbglist.exe: obj/dbglist.o obj/admin-gui.rc.o
+	@printf '%sLinking executable %s\n' "$(GREEN)" "$@$(RESET)"
+	@mkdir -p bin
+	@$(LD) $< obj/admin-gui.rc.o -o $@ -s $(LDFLAGS) -Wl,--subsystem,windows
 	@printf '%sBuilt target %s\n' "$(BLUE)" "$@$(RESET)"
