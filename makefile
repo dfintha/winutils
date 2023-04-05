@@ -30,24 +30,25 @@ clean:
 	@printf '%sRemoving build artifacts%s\n' "$(BLUE)" "$(RESET)"
 	@rm -rf bin obj
 
-obj/common.o: res/common.rc makefile
+obj/%.rc.o: res/%.rc makefile
 	@printf "%sCompiling resource object %s\n" "$(GREEN)$(DIM)" "$@$(RESET)"
 	@mkdir -p obj
-	@$(RC) -i res/common.rc -o obj/common.o
+	@$(RC) -i $< -o $@
 
 obj/%.o: src/%.c makefile
 	@printf '%sCompiling C object %s\n' "$(GREEN)$(DIM)" "$@$(RESET)"
 	@mkdir -p obj
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-bin/%.exe: obj/%.o obj/common.o
+bin/%.exe: obj/%.o obj/common-console.rc.o
 	@printf '%sLinking executable %s\n' "$(GREEN)" "$@$(RESET)"
 	@mkdir -p bin
-	@$(LD) $< obj/common.o -o $@ -s $(LDFLAGS)
+	@$(LD) $< obj/common-console.rc.o -o $@ -s $(LDFLAGS)
 	@printf '%sBuilt target %s\n' "$(BLUE)" "$@$(RESET)"
 
-bin/mdicapture.exe: obj/mdicapture.o obj/common.o
+bin/mdicapture.exe: obj/mdicapture.o obj/common-gui.rc.o
 	@printf '%sLinking executable %s\n' "$(GREEN)" "$@$(RESET)"
 	@mkdir -p bin
-	@$(LD) $< obj/common.o -o $@ -s $(LDFLAGS) -Wl,--subsystem,windows
+	@$(LD) $< obj/common-gui.rc.o -o $@ -s $(LDFLAGS) -Wl,--subsystem,windows
+	@printf '%sBuilt target %s\n' "$(BLUE)" "$@$(RESET)"
 	@printf '%sBuilt target %s\n' "$(BLUE)" "$@$(RESET)"
