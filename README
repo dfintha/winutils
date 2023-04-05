@@ -33,3 +33,4 @@ The following tools are maintained in the repository.
 - forceshow.exe: Forces the visibility of a window based on its title.
 - adminrun.exe: Runs the specified command as administrator.
 - mdicapture.exe: Provides an MDI frame, to which external windows can be added.
+- modules.exe: Lists the loaded modules (the EXE and DLLs) of a running process.

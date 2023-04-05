@@ -4,7 +4,8 @@ BINARIES= \
 	bin/killall.exe \
 	bin/forceshow.exe \
 	bin/adminrun.exe \
-	bin/mdicapture.exe
+	bin/mdicapture.exe \
+	bin/modules.exe
 
 CC=x86_64-w64-mingw32-gcc
 RC=x86_64-w64-mingw32-windres
