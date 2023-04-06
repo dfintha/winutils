@@ -6,7 +6,8 @@ BINARIES= \
 	bin/adminrun.exe \
 	bin/mdicapture.exe \
 	bin/modules.exe \
-	bin/dbglist.exe
+	bin/dbglist.exe \
+	bin/errcode.exe
 
 CC=x86_64-w64-mingw32-gcc
 RC=x86_64-w64-mingw32-windres

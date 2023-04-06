@@ -35,3 +35,4 @@ The following tools are maintained in the repository.
 - mdicapture.exe: Provides an MDI frame, to which external windows can be added.
 - modules.exe: Lists the loaded modules (the EXE and DLLs) of a running process.
 - dbglist.exe: Listens to and displays OutputDebugString() messages system-wide.
+- errcode.exe: Takes error codes as arguments, and prints their description.
