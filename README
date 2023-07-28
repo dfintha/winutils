@@ -36,3 +36,4 @@ The following tools are maintained in the repository.
 - modules.exe: Lists the loaded modules (the EXE and DLLs) of a running process.
 - dbglist.exe: Listens to and displays OutputDebugString() messages system-wide.
 - errcode.exe: Takes error codes as arguments, and prints their description.
+- topology.exe: Toggles between cloned and extending display topology.
