@@ -309,7 +309,7 @@ static HWND CreateMainWindow(HINSTANCE hInstance) {
     wcMain.hInstance = hInstance;
     wcMain.hIcon = hIcon;
     wcMain.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wcMain.hbrBackground = (HBRUSH)(COLOR_WINDOW);
+    wcMain.hbrBackground = CreateSolidBrush(RGB(50, 50, 50));
     wcMain.lpszMenuName = NULL;
     wcMain.lpszClassName = "DBGLISTMAINWINDOW";
     if (!RegisterClassA(&wcMain))
