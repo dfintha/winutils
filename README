@@ -37,3 +37,4 @@ The following tools are maintained in the repository.
 - dbglist.exe: Listens to and displays OutputDebugString() messages system-wide.
 - errcode.exe: Takes error codes as arguments, and prints their description.
 - topology.exe: Toggles between cloned and extending display topology.
+- wndpids.exe: Lists the PID of each top-level window's process.

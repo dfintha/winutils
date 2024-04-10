@@ -8,7 +8,8 @@ BINARIES= \
 	bin/modules.exe \
 	bin/dbglist.exe \
 	bin/errcode.exe \
-	bin/topology.exe
+	bin/topology.exe \
+	bin/wndpids.exe
 
 CC=x86_64-w64-mingw32-gcc
 RC=x86_64-w64-mingw32-windres
